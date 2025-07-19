@@ -5,7 +5,7 @@
   <body bgcolor="#00FF00">
     <h1>This Java CLoud Springbot 2025 Application Form by Damila Real Cloud Experts</h1>
     <h1>We are building pipeline using YAML, deploying MyWebApp into AWS App services/WebApp!!!!</h1>
-    <h1>>Using Terraform to provision our infrastructure and tomcat server running apache web server</h1>
+    <h1>>Using Terraform Scripts to provision our infrastructure and tomcat server running apache web server</h1>
 
     <!--Form declaration. Must have an action attribute -->
         <form action="C:/JonnyJava/FirstJava.html/profile.html" method="post">
