@@ -51,6 +51,6 @@ jobs:
         run: |
           mvn -f MyWebApp/pom.xml \
             org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=your_project_key \
+            -Dsonar.projectKey=MyWebApp \
             -Dsonar.host.url=${SONAR_HOST_URL} \
             -Dsonar.login=${SONAR_TOKEN}
