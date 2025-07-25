@@ -1,10 +1,11 @@
-name: SonarQube
+name: SonarCloud
 on:
   push:
     branches:
       - newstaging
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
@@ -18,25 +19,33 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Build with Maven
-        run: mvn clean install -f MyWebApp/pom.xml
-
-      - name: Run Unit Tests
-        run: mvn test -f MyWebApp/pom.xml
-
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('MyWebApp/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build with Maven
+        run: mvn clean install -f MyWebApp/pom.xml
+
+      - name: Run Unit Tests
+        run: mvn test -f MyWebApp/pom.xml
+
+      - name: SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=realmyorg_mywebapp
+        run: |
+          mvn -f MyWebApp/pom.xml \
+            -Dsonar.projectKey=realmyorg_mywebapp \
+            -Dsonar.organization=realmyorg \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
