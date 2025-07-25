@@ -11,9 +11,7 @@ jobs:
     name: Build and analyze with SonarQube
     runs-on: ubuntu-latest
 
-    env:
-      SONAR_HOST_URL: http://your-sonarqube-domain:9000  # 👈 Set your SonarQube URL here
-
+   
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
